@@ -1,0 +1,4 @@
+services containing functional code with specific usage
+
+read more about controller-service relationship at:
+https://www.coreycleary.me/what-is-the-difference-between-controllers-and-services-in-node-rest-apis/
