@@ -1,5 +1,8 @@
 const express = require('express')
+const { initDBConnection } = require('./db/index')
+
 const app = express()
+initDBConnection()
 
 const contactRouter = require('./routes/contact')
 
