@@ -1,33 +1,34 @@
-const Contact = require('../models/contactModel')
 const contactService = require('../services/contactService')
+const { formatResponse, contactMessageTemplate: message } = require('../helpers/responseFormatter')
 
 const getContact = async (req, res) => {
-  let contactList = await Contact.find()
-  // if query params exist, search by name
-  // make middleware for query params
-  res.json({ message: "get all contacts", content: contactList })
+  // get data for database query
+  let { limit, page, name } = req.query
+  // (WIP) make middleware for query params
+  let contactList = await contactService.list(limit, page, name)
+  res.send(formatResponse(contactList))
 }
 
 const getContactById = async (req, res) => {
   let id = req.params.id
   let result = await contactService.findById(id)
-  res.json({ message: `get contact with id = ${req.params.id}`, data: result })
+  res.send(formatResponse(result))
 }
 
 const addContact = async (req, res) => {
   let payload = { firstName, lastName, phone, email, address } = req.body
   let result = await contactService.add(payload)
-  res.json({ message: "add new contact", content: result })
+  res.send(formatResponse(result, true, message.added))
 }
 
 const updateContact = (req, res) => {
-  res.json({ message: `update contact with id = ${req.params.id}`, content: req.body })
+  res.send(formatResponse({}, true, message.updated))
 }
 
 const deleteContact = async (req, res) => {
   let id = req.params.id
   let result = await contactService.deleteById(id)
-  res.json({ message: `deleting contact with id = ${req.params.id}`, data: result })
+  res.send(formatResponse(result, true, message.deleted))
 }
 
 module.exports = {

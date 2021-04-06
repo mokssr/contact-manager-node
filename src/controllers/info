@@ -1,6 +1,0 @@
-controller containing business logic.
-most of the time, controllers are dealing with framework-related variables
-cleaned data then used as service calls' parameter
-
-read more about controller-service relationship at:
-https://www.coreycleary.me/what-is-the-difference-between-controllers-and-services-in-node-rest-apis/
