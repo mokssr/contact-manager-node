@@ -3,8 +3,8 @@ const Contact = require('../models/contactModel')
 // get all with optional pagination
 exports.list = async (limit = 5, page = 1, name = null) => {
   let query = {
-    limit: limit < 1 ? 1 : limit, //set minimum limit to 1
-    skip: limit * (page - 1) //skip for pagination
+    limit: parseInt(limit < 1 ? 1 : limit), //set minimum limit to 1
+    skip: parseInt(limit * (page - 1)) //skip for pagination
   }
 
   let nameReg = new RegExp(name, 'i')
@@ -37,7 +37,12 @@ exports.add = async (payload) => {
   return result ? result : null
 }
 // update by id
-
+exports.update = async (_id, payload) => {
+  result = await Contact.findByIdAndUpdate(_id, payload, {
+    new: true //return contact only after update is performed
+  })
+  return result ? result : null
+}
 // delete by id
 exports.deleteById = async (_id) => {
   let result = await Contact.findByIdAndDelete(_id)
