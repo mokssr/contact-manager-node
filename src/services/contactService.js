@@ -1,6 +1,21 @@
 const Contact = require('../models/contactModel')
 
 // get all with optional pagination
+exports.list = async (limit = 5, page = 1, name = null) => {
+  let query = {
+    limit: limit < 1 ? 1 : limit, //set minimum limit to 1
+    skip: limit * (page - 1) //skip for pagination
+  }
+
+  let nameReg = new RegExp(name, 'i')
+  let nameQuery = name ? {
+    // look for both first name and last name field
+    $or: [{ firstName: nameReg }, { lastName: nameReg }]
+  } : {}
+
+  let result = await Contact.find(nameQuery, {}, query)
+  return result ? result : null
+}
 
 // find one by id
 exports.findById = async (_id) => {
@@ -19,7 +34,7 @@ exports.add = async (payload) => {
   })
 
   let result = await instance.save()
-  return result
+  return result ? result : null
 }
 // update by id
 
