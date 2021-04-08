@@ -3,7 +3,7 @@ const Contact = require('../models/contactModel')
 // get all with optional pagination
 exports.list = async (limit = 5, page = 1, name = null) => {
   let query = {
-    limit: parseInt(limit < 1 ? 1 : limit), //set minimum limit to 1
+    limit: limit < 1 ? 1 : limit, //set minimum limit to 1
     skip: limit * (page - 1) //skip for pagination
   }
 

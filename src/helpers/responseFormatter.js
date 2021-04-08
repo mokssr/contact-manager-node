@@ -11,3 +11,8 @@ exports.contactMessageTemplate = {
   deleted: "Contact deleted from list.",
   updated: "Contact updated."
 }
+
+exports.queryMessageTemplate = {
+  invalidPage: "Invalid variable page.",
+  invalidLimit: "Invalid variable limit."
+}

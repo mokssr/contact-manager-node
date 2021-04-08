@@ -1,9 +1,18 @@
 const contactService = require('../services/contactService')
-const { formatResponse, contactMessageTemplate: message } = require('../helpers/responseFormatter')
+const { formatResponse, contactMessageTemplate: message, queryMessageTemplate: queryMessage } = require('../helpers/responseFormatter')
 
 const getContact = async (req, res) => {
   // get data for database query
   let { limit, page, name } = req.query
+  if (!parseInt(limit) || limit < 1) {
+    res.status(400).send(formatResponse(null, false, queryMessage.invalidLimit))
+    return
+  }
+  if (!parseInt(page) || page < 1) {
+    res.status(400).send(formatResponse(null, false, queryMessage.invalidPage))
+    return
+  }
+  name = decodeURI(name.trim()) //trim and decode URI encoding
   // (WIP) make middleware for query params
   let contactList = await contactService.list(limit, page, name)
   res.send(formatResponse(contactList))
